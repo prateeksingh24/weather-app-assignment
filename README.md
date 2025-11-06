@@ -2,6 +2,12 @@
 
 A modern Flutter weather application built with GetX state management and OpenWeatherMap API.
 
+## Screenshots
+
+<div align="center">
+  <img src="screenshots/home_screen.png" alt="Weather App Home Screen" width="300"/>
+</div>
+
 ## Features
 
 - 🌍 Current weather for any city
