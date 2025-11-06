@@ -5,7 +5,7 @@ A modern Flutter weather application built with GetX state management and OpenWe
 ## Screenshots
 
 <div align="center">
-  <img src="screenshots/home_screen.png" alt="Weather App Home Screen" width="300"/>
+  <img src="weather.jpeg" alt="Weather App Home Screen" width="300"/>
 </div>
 
 ## Features
