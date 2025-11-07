@@ -3,15 +3,12 @@ import 'package:get/get.dart';
 import 'package:wather_app/controllers/favorites_controller.dart';
 import 'package:wather_app/controllers/weather_controller.dart';
 import 'package:wather_app/views/weather_detail_view.dart';
-
 class FavoritesView extends StatelessWidget {
   const FavoritesView({super.key});
-
   @override
   Widget build(BuildContext context) {
     final FavoritesController favoritesController = Get.find();
     final WeatherController weatherController = Get.find();
-
     return Scaffold(
       extendBodyBehindAppBar: true,
       backgroundColor: const Color(0xFF1C1B33),
@@ -89,7 +86,6 @@ class FavoritesView extends StatelessWidget {
               ),
             );
           }
-
           return ListView.builder(
             padding: const EdgeInsets.only(
               top: 100,
@@ -100,7 +96,6 @@ class FavoritesView extends StatelessWidget {
             itemCount: favoritesController.favorites.length,
             itemBuilder: (context, index) {
               final city = favoritesController.favorites[index];
-
               return Container(
                 margin: const EdgeInsets.only(bottom: 12),
                 decoration: BoxDecoration(
@@ -131,7 +126,6 @@ class FavoritesView extends StatelessWidget {
                       padding: const EdgeInsets.all(16),
                       child: Row(
                         children: [
-                          // City Icon
                           Container(
                             padding: const EdgeInsets.all(12),
                             decoration: BoxDecoration(
@@ -144,10 +138,7 @@ class FavoritesView extends StatelessWidget {
                               size: 24,
                             ),
                           ),
-
                           const SizedBox(width: 14),
-
-                          // City Name
                           Expanded(
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -172,8 +163,6 @@ class FavoritesView extends StatelessWidget {
                               ],
                             ),
                           ),
-
-                          // Delete Button
                           Container(
                             decoration: BoxDecoration(
                               color: Colors.red.withOpacity(0.2),
@@ -195,10 +184,7 @@ class FavoritesView extends StatelessWidget {
                               tooltip: 'Remove from favorites',
                             ),
                           ),
-
                           const SizedBox(width: 6),
-
-                          // Arrow Icon
                           const Icon(
                             Icons.arrow_forward_ios_rounded,
                             size: 16,
@@ -216,7 +202,6 @@ class FavoritesView extends StatelessWidget {
       ),
     );
   }
-
   void _showDeleteDialog(
     BuildContext context,
     String city,

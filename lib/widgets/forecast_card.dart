@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
-
 class ForecastCard extends StatelessWidget {
   final String day;
   final String condition;
   final double maxTemp;
   final double minTemp;
   final IconData? icon;
-
   const ForecastCard({
     super.key,
     required this.day,
@@ -15,7 +13,6 @@ class ForecastCard extends StatelessWidget {
     required this.minTemp,
     this.icon,
   });
-
   @override
   Widget build(BuildContext context) {
     return Card(

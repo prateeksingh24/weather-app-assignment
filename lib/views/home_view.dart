@@ -8,15 +8,12 @@ import 'package:wather_app/views/weather_detail_view.dart';
 import 'package:wather_app/widgets/error_view.dart';
 import 'package:wather_app/utils/helpers.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-
 class HomeView extends StatelessWidget {
   const HomeView({super.key});
-
   @override
   Widget build(BuildContext context) {
     final WeatherController weatherController = Get.find();
     final FavoritesController favoritesController = Get.find();
-
     return Scaffold(
       backgroundColor: const Color(0xFF1C1B33),
       body: Obx(() {
@@ -35,7 +32,6 @@ class HomeView extends StatelessWidget {
             ),
           );
         }
-
         if (weatherController.error.value.isNotEmpty &&
             weatherController.currentWeather.value == null) {
           return ErrorView(
@@ -43,7 +39,6 @@ class HomeView extends StatelessWidget {
             onRetry: () => weatherController.refreshWeather(),
           );
         }
-
         if (weatherController.currentWeather.value == null) {
           return Container(
             decoration: const BoxDecoration(
@@ -102,10 +97,8 @@ class HomeView extends StatelessWidget {
             ),
           );
         }
-
         final weather = weatherController.currentWeather.value!;
         final isFavorite = favoritesController.isFavorite(weather.cityName);
-
         return Container(
           decoration: const BoxDecoration(
             gradient: LinearGradient(
@@ -183,7 +176,6 @@ class HomeView extends StatelessWidget {
                   ),
                   sliver: SliverList(
                     delegate: SliverChildListDelegate([
-                      // Header - Today + Date
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -226,10 +218,7 @@ class HomeView extends StatelessWidget {
                           ),
                         ],
                       ),
-
                       const SizedBox(height: 30),
-
-                      // Main Weather Card
                       GestureDetector(
                         onTap: () => Get.to(
                           () => WeatherDetailView(location: weather.cityName),
@@ -257,13 +246,11 @@ class HomeView extends StatelessWidget {
                           ),
                           child: Column(
                             children: [
-                              // Temperature and Icon Row
                               Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  // Temperature Section
                                   Expanded(
                                     flex: 3,
                                     child: Column(
@@ -313,10 +300,7 @@ class HomeView extends StatelessWidget {
                                       ],
                                     ),
                                   ),
-
                                   const SizedBox(width: 8),
-
-                                  // Weather Icon
                                   Flexible(
                                     flex: 2,
                                     child: CachedNetworkImage(
@@ -338,10 +322,7 @@ class HomeView extends StatelessWidget {
                                   ),
                                 ],
                               ),
-
                               const SizedBox(height: 24),
-
-                              // Location Row
                               Row(
                                 children: [
                                   const Icon(
@@ -366,10 +347,7 @@ class HomeView extends StatelessWidget {
                           ),
                         ),
                       ),
-
                       const SizedBox(height: 30),
-
-                      // Weather Details Cards (3 in a row)
                       Row(
                         children: [
                           Expanded(
@@ -402,10 +380,7 @@ class HomeView extends StatelessWidget {
                           ),
                         ],
                       ),
-
                       const SizedBox(height: 30),
-
-                      // 5-Day Forecast Section
                       if (weatherController.dailyForecasts.isNotEmpty) ...[
                         const Text(
                           '5-Day Forecast',
@@ -538,7 +513,6 @@ class HomeView extends StatelessWidget {
       ),
     );
   }
-
   Widget _buildSmallInfoCard(IconData icon, String label, String value) {
     return Container(
       padding: const EdgeInsets.all(16),

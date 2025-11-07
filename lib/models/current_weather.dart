@@ -13,7 +13,6 @@ class CurrentWeather {
   final DateTime timestamp;
   final double lat;
   final double lon;
-
   CurrentWeather({
     required this.cityName,
     required this.country,
@@ -30,7 +29,6 @@ class CurrentWeather {
     required this.lat,
     required this.lon,
   });
-
   factory CurrentWeather.fromJson(Map<String, dynamic> json) {
     return CurrentWeather(
       cityName: json['name'] ?? '',
@@ -49,7 +47,6 @@ class CurrentWeather {
       lon: (json['coord']?['lon'] ?? 0).toDouble(),
     );
   }
-
   Map<String, dynamic> toJson() {
     return {
       'name': cityName,
@@ -69,6 +66,5 @@ class CurrentWeather {
       'coord': {'lat': lat, 'lon': lon},
     };
   }
-
   String get iconUrl => 'https://openweathermap.org/img/wn/$icon@2x.png';
 }

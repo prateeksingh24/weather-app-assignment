@@ -4,13 +4,10 @@ import 'package:wather_app/models/forecast.dart';
 import 'package:wather_app/services/weather_service.dart';
 import 'package:wather_app/services/location_service.dart';
 import 'package:wather_app/services/storage_service.dart';
-
 class WeatherController extends GetxController {
   final WeatherService _weatherService = Get.find();
   final LocationService _locationService = Get.find();
   final StorageService _storageService = Get.find();
-
-  // Observable variables
   var isLoading = false.obs;
   var isForecastLoading = false.obs;
   var error = ''.obs;
@@ -20,50 +17,40 @@ class WeatherController extends GetxController {
   var currentCity = ''.obs;
   var temperatureUnit =
       'metric'.obs; // metric for Celsius, imperial for Fahrenheit
-
   @override
   void onInit() {
     super.onInit();
     loadTemperatureUnit();
     loadLastLocation();
   }
-
   Future<void> loadTemperatureUnit() async {
     final unit = await _storageService.getTemperatureUnit();
     temperatureUnit.value = unit;
   }
-
   Future<void> toggleTemperatureUnit() async {
     temperatureUnit.value = temperatureUnit.value == 'metric'
         ? 'imperial'
         : 'metric';
     await _storageService.saveTemperatureUnit(temperatureUnit.value);
-
-    // Refresh weather with new unit
     if (currentCity.value.isNotEmpty) {
       await fetchWeather(currentCity.value);
     }
   }
-
   Future<void> loadLastLocation() async {
     final lastCity = await _storageService.loadLastLocation();
     if (lastCity != null && lastCity.isNotEmpty) {
       await fetchWeather(lastCity);
     } else {
-      // Try to get current location
       await fetchWeatherByCurrentLocation();
     }
   }
-
   Future<void> fetchWeather(String city) async {
     if (city.isEmpty) {
       error.value = 'Please enter a city name';
       return;
     }
-
     isLoading.value = true;
     error.value = '';
-
     try {
       final weather = await _weatherService.getCurrentWeather(
         city,
@@ -71,13 +58,8 @@ class WeatherController extends GetxController {
       );
       currentWeather.value = weather;
       currentCity.value = city;
-
-      // Save last location
       await _storageService.saveLastLocation(city);
-
-      // Fetch forecast
       await fetchForecast(city);
-
       error.value = '';
     } catch (e) {
       error.value = e.toString().replaceAll('Exception: ', '');
@@ -92,21 +74,16 @@ class WeatherController extends GetxController {
       isLoading.value = false;
     }
   }
-
   Future<void> fetchWeatherByCurrentLocation() async {
     isLoading.value = true;
     error.value = '';
-
     try {
-      // Check and request location permission
       final hasPermission = await _locationService.requestLocationPermission();
       if (!hasPermission) {
         error.value = 'Location permission denied. Please search for a city.';
         isLoading.value = false;
         return;
       }
-
-      // Check if location service is enabled
       final isEnabled = await _locationService.isLocationServiceEnabled();
       if (!isEnabled) {
         error.value =
@@ -114,8 +91,6 @@ class WeatherController extends GetxController {
         isLoading.value = false;
         return;
       }
-
-      // Get current position
       final position = await _locationService.getCurrentLocation();
       if (position == null) {
         error.value =
@@ -123,22 +98,15 @@ class WeatherController extends GetxController {
         isLoading.value = false;
         return;
       }
-
       final weather = await _weatherService.getCurrentWeatherByCoordinates(
         position.latitude,
         position.longitude,
         units: temperatureUnit.value,
       );
-
       currentWeather.value = weather;
       currentCity.value = weather.cityName;
-
-      // Save last location
       await _storageService.saveLastLocation(weather.cityName);
-
-      // Fetch forecast
       await fetchForecastByCoordinates(position.latitude, position.longitude);
-
       error.value = '';
     } catch (e) {
       error.value = e.toString().replaceAll('Exception: ', '');
@@ -152,30 +120,23 @@ class WeatherController extends GetxController {
       isLoading.value = false;
     }
   }
-
   Future<void> fetchForecast(String city) async {
     isForecastLoading.value = true;
-
     try {
       final forecastList = await _weatherService.getForecast(
         city,
         units: temperatureUnit.value,
       );
       forecasts.value = forecastList;
-
-      // Group into daily forecasts
       dailyForecasts.value = _weatherService.groupForecastsByDay(forecastList);
     } catch (e) {
-      // Forecast error is not critical, just log it
       print('Error fetching forecast: $e');
     } finally {
       isForecastLoading.value = false;
     }
   }
-
   Future<void> fetchForecastByCoordinates(double lat, double lon) async {
     isForecastLoading.value = true;
-
     try {
       final forecastList = await _weatherService.getForecastByCoordinates(
         lat,
@@ -183,17 +144,13 @@ class WeatherController extends GetxController {
         units: temperatureUnit.value,
       );
       forecasts.value = forecastList;
-
-      // Group into daily forecasts
       dailyForecasts.value = _weatherService.groupForecastsByDay(forecastList);
     } catch (e) {
-      // Forecast error is not critical, just log it
       print('Error fetching forecast: $e');
     } finally {
       isForecastLoading.value = false;
     }
   }
-
   Future<void> refreshWeather() async {
     if (currentCity.value.isNotEmpty) {
       await fetchWeather(currentCity.value);
@@ -201,11 +158,9 @@ class WeatherController extends GetxController {
       await fetchWeatherByCurrentLocation();
     }
   }
-
   String getTemperatureSymbol() {
     return temperatureUnit.value == 'metric' ? '°C' : '°F';
   }
-
   String getWindSpeedUnit() {
     return temperatureUnit.value == 'metric' ? 'km/h' : 'mph';
   }

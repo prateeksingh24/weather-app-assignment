@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-
 class WeatherCard extends StatelessWidget {
   final String location;
   final double temperature;
   final String condition;
   final VoidCallback? onTap;
-
   const WeatherCard({
     super.key,
     required this.location,
@@ -13,7 +11,6 @@ class WeatherCard extends StatelessWidget {
     required this.condition,
     this.onTap,
   });
-
   @override
   Widget build(BuildContext context) {
     return Card(

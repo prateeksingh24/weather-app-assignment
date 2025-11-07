@@ -6,17 +6,13 @@ import 'package:wather_app/widgets/error_view.dart';
 import 'package:wather_app/utils/helpers.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:intl/intl.dart';
-
 class WeatherDetailView extends StatelessWidget {
   final String location;
-
   const WeatherDetailView({super.key, required this.location});
-
   @override
   Widget build(BuildContext context) {
     final WeatherController weatherController = Get.find();
     final FavoritesController favoritesController = Get.find();
-
     return Scaffold(
       backgroundColor: const Color(0xFF1C1B33),
       body: Container(
@@ -43,7 +39,6 @@ class WeatherDetailView extends StatelessWidget {
               ),
             );
           }
-
           if (weatherController.error.value.isNotEmpty &&
               weatherController.currentWeather.value == null) {
             return ErrorView(
@@ -51,7 +46,6 @@ class WeatherDetailView extends StatelessWidget {
               onRetry: () => weatherController.fetchWeather(location),
             );
           }
-
           if (weatherController.currentWeather.value == null) {
             return const Center(
               child: Text(
@@ -60,9 +54,7 @@ class WeatherDetailView extends StatelessWidget {
               ),
             );
           }
-
           final weather = weatherController.currentWeather.value!;
-
           return RefreshIndicator(
             onRefresh: () => weatherController.fetchWeather(location),
             color: const Color(0xFFFDB846),
@@ -125,7 +117,6 @@ class WeatherDetailView extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      // Current Weather Header
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 20.0),
                         child: Container(
@@ -219,8 +210,6 @@ class WeatherDetailView extends StatelessWidget {
                           ),
                         ),
                       ),
-
-                      // Weather Details Grid
                       Padding(
                         padding: const EdgeInsets.all(20.0),
                         child: Column(
@@ -275,10 +264,7 @@ class WeatherDetailView extends StatelessWidget {
                                 ),
                               ],
                             ),
-
                             const SizedBox(height: 24),
-
-                            // Hourly Forecast
                             if (weatherController.forecasts.isNotEmpty) ...[
                               const Text(
                                 'Hourly Forecast',
@@ -359,8 +345,6 @@ class WeatherDetailView extends StatelessWidget {
                               ),
                               const SizedBox(height: 24),
                             ],
-
-                            // 5-Day Forecast
                             if (weatherController
                                 .dailyForecasts
                                 .isNotEmpty) ...[
@@ -471,7 +455,6 @@ class WeatherDetailView extends StatelessWidget {
       ),
     );
   }
-
   Widget _buildDetailCard({
     required IconData icon,
     required String title,

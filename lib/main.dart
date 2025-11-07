@@ -7,28 +7,18 @@ import 'package:wather_app/views/home_view.dart';
 import 'package:wather_app/services/weather_service.dart';
 import 'package:wather_app/services/location_service.dart';
 import 'package:wather_app/services/storage_service.dart';
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
-  // Load environment variables
   await dotenv.load(fileName: ".env");
-
-  // Initialize services
   Get.put(WeatherService());
   Get.put(LocationService());
   Get.put(StorageService());
-
-  // Initialize controllers
   Get.put(WeatherController());
   Get.put(FavoritesController());
-
   runApp(const MyApp());
 }
-
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
-
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(

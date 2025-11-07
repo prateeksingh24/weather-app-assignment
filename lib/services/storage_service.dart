@@ -1,6 +1,5 @@
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wather_app/utils/constants.dart';
-
 class StorageService {
   Future<void> saveFavorites(List<String> favorites) async {
     try {
@@ -11,7 +10,6 @@ class StorageService {
       rethrow;
     }
   }
-
   Future<List<String>> loadFavorites() async {
     try {
       final prefs = await SharedPreferences.getInstance();
@@ -21,7 +19,6 @@ class StorageService {
       return [];
     }
   }
-
   Future<void> saveLastLocation(String location) async {
     try {
       final prefs = await SharedPreferences.getInstance();
@@ -31,7 +28,6 @@ class StorageService {
       rethrow;
     }
   }
-
   Future<String?> loadLastLocation() async {
     try {
       final prefs = await SharedPreferences.getInstance();
@@ -41,7 +37,6 @@ class StorageService {
       return null;
     }
   }
-
   Future<void> saveTemperatureUnit(String unit) async {
     try {
       final prefs = await SharedPreferences.getInstance();
@@ -51,7 +46,6 @@ class StorageService {
       rethrow;
     }
   }
-
   Future<String> getTemperatureUnit() async {
     try {
       final prefs = await SharedPreferences.getInstance();
@@ -61,7 +55,6 @@ class StorageService {
       return 'metric';
     }
   }
-
   Future<void> clearAll() async {
     try {
       final prefs = await SharedPreferences.getInstance();

@@ -3,22 +3,17 @@ import 'package:http/http.dart' as http;
 import 'package:wather_app/models/current_weather.dart';
 import 'package:wather_app/models/forecast.dart';
 import 'package:wather_app/utils/constants.dart';
-
 class WeatherService {
   final String apiKey = AppConstants.weatherApiKey;
   final String baseUrl = AppConstants.weatherApiBaseUrl;
-
   Future<CurrentWeather> getCurrentWeather(
     String city, {
     String units = 'metric',
   }) async {
-    
-
     try {
       final url = Uri.parse(
         '$baseUrl/weather?q=$city&appid=$apiKey&units=$units',
       );
-
       final response = await http
           .get(url)
           .timeout(
@@ -29,7 +24,6 @@ class WeatherService {
               );
             },
           );
-
       if (response.statusCode == 200) {
         final data = json.decode(response.body);
         return CurrentWeather.fromJson(data);
@@ -54,18 +48,15 @@ class WeatherService {
       throw Exception('Failed to fetch weather: ${e.toString()}');
     }
   }
-
   Future<CurrentWeather> getCurrentWeatherByCoordinates(
     double lat,
     double lon, {
     String units = 'metric',
   }) async {
-   
     try {
       final url = Uri.parse(
         '$baseUrl/weather?lat=$lat&lon=$lon&appid=$apiKey&units=$units',
       );
-
       final response = await http
           .get(url)
           .timeout(
@@ -76,7 +67,6 @@ class WeatherService {
               );
             },
           );
-
       if (response.statusCode == 200) {
         final data = json.decode(response.body);
         return CurrentWeather.fromJson(data);
@@ -89,7 +79,6 @@ class WeatherService {
       throw Exception('Failed to fetch weather: ${e.toString()}');
     }
   }
-
   Future<List<Forecast>> getForecast(
     String city, {
     String units = 'metric',
@@ -99,12 +88,10 @@ class WeatherService {
         'Please add your OpenWeatherMap API key in lib/utils/constants.dart',
       );
     }
-
     try {
       final url = Uri.parse(
         '$baseUrl/forecast?q=$city&appid=$apiKey&units=$units',
       );
-
       final response = await http
           .get(url)
           .timeout(
@@ -115,11 +102,9 @@ class WeatherService {
               );
             },
           );
-
       if (response.statusCode == 200) {
         final data = json.decode(response.body);
         final List<dynamic> forecastList = data['list'];
-
         return forecastList.map((item) => Forecast.fromJson(item)).toList();
       } else if (response.statusCode == 404) {
         throw Exception(
@@ -139,7 +124,6 @@ class WeatherService {
       throw Exception('Failed to fetch forecast: ${e.toString()}');
     }
   }
-
   Future<List<Forecast>> getForecastByCoordinates(
     double lat,
     double lon, {
@@ -150,12 +134,10 @@ class WeatherService {
         'Please add your OpenWeatherMap API key in lib/utils/constants.dart',
       );
     }
-
     try {
       final url = Uri.parse(
         '$baseUrl/forecast?lat=$lat&lon=$lon&appid=$apiKey&units=$units',
       );
-
       final response = await http
           .get(url)
           .timeout(
@@ -166,11 +148,9 @@ class WeatherService {
               );
             },
           );
-
       if (response.statusCode == 200) {
         final data = json.decode(response.body);
         final List<dynamic> forecastList = data['list'];
-
         return forecastList.map((item) => Forecast.fromJson(item)).toList();
       } else {
         throw Exception(
@@ -181,11 +161,8 @@ class WeatherService {
       throw Exception('Failed to fetch forecast: ${e.toString()}');
     }
   }
-
-  // Group hourly forecasts into daily forecasts (5-day forecast)
   List<DailyForecast> groupForecastsByDay(List<Forecast> forecasts) {
     final Map<String, List<Forecast>> groupedForecasts = {};
-
     for (var forecast in forecasts) {
       final dateKey =
           '${forecast.date.year}-${forecast.date.month}-${forecast.date.day}';
@@ -194,9 +171,7 @@ class WeatherService {
       }
       groupedForecasts[dateKey]!.add(forecast);
     }
-
     final List<DailyForecast> dailyForecasts = [];
-
     groupedForecasts.forEach((key, hourlyForecasts) {
       if (dailyForecasts.length < 5) {
         final maxTemp = hourlyForecasts
@@ -205,8 +180,6 @@ class WeatherService {
         final minTemp = hourlyForecasts
             .map((f) => f.minTemperature)
             .reduce((a, b) => a < b ? a : b);
-
-        // Get the most common weather condition
         final conditions = hourlyForecasts.map((f) => f.condition).toList();
         final mostCommonCondition = conditions.reduce(
           (a, b) =>
@@ -215,13 +188,10 @@ class WeatherService {
               ? a
               : b,
         );
-
-        // Get icon from midday forecast (around 12:00)
         final middayForecast = hourlyForecasts.firstWhere(
           (f) => f.date.hour >= 12 && f.date.hour <= 15,
           orElse: () => hourlyForecasts[hourlyForecasts.length ~/ 2],
         );
-
         dailyForecasts.add(
           DailyForecast(
             date: hourlyForecasts.first.date,
@@ -234,18 +204,10 @@ class WeatherService {
         );
       }
     });
-
     return dailyForecasts;
   }
-
   Future<List<String>> searchCities(String query) async {
-    // Note: OpenWeatherMap's free tier doesn't include a city search endpoint
-    // You would need to use the Geocoding API or implement your own city list
-    // For now, we'll return a simple implementation
     if (query.isEmpty) return [];
-
-    // You can implement a local city list or use the Geocoding API
-    // For demonstration, returning the query itself
     return [query];
   }
 }

@@ -8,7 +8,6 @@ class Forecast {
   final String icon;
   final double humidity;
   final double windSpeed;
-
   Forecast({
     required this.date,
     required this.temperature,
@@ -20,7 +19,6 @@ class Forecast {
     required this.humidity,
     required this.windSpeed,
   });
-
   factory Forecast.fromJson(Map<String, dynamic> json) {
     return Forecast(
       date: DateTime.fromMillisecondsSinceEpoch((json['dt'] ?? 0) * 1000),
@@ -34,7 +32,6 @@ class Forecast {
       windSpeed: (json['wind']?['speed'] ?? 0).toDouble(),
     );
   }
-
   Map<String, dynamic> toJson() {
     return {
       'dt': date.millisecondsSinceEpoch ~/ 1000,
@@ -50,10 +47,8 @@ class Forecast {
       'wind': {'speed': windSpeed},
     };
   }
-
   String get iconUrl => 'https://openweathermap.org/img/wn/$icon@2x.png';
 }
-
 class DailyForecast {
   final DateTime date;
   final double maxTemp;
@@ -61,7 +56,6 @@ class DailyForecast {
   final String condition;
   final String icon;
   final List<Forecast> hourlyForecasts;
-
   DailyForecast({
     required this.date,
     required this.maxTemp,
@@ -70,6 +64,5 @@ class DailyForecast {
     required this.icon,
     required this.hourlyForecasts,
   });
-
   String get iconUrl => 'https://openweathermap.org/img/wn/$icon@2x.png';
 }

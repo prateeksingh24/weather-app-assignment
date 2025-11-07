@@ -1,17 +1,13 @@
 import 'package:get/get.dart';
 import 'package:wather_app/services/storage_service.dart';
-
 class FavoritesController extends GetxController {
   final StorageService _storageService = Get.find();
-
   var favorites = <String>[].obs;
-
   @override
   void onInit() {
     super.onInit();
     loadFavorites();
   }
-
   Future<void> loadFavorites() async {
     try {
       final loadedFavorites = await _storageService.loadFavorites();
@@ -20,10 +16,8 @@ class FavoritesController extends GetxController {
       print('Error loading favorites: $e');
     }
   }
-
   Future<void> addFavorite(String city) async {
     if (city.isEmpty) return;
-
     if (!favorites.contains(city)) {
       favorites.add(city);
       await _storageService.saveFavorites(favorites);
@@ -42,7 +36,6 @@ class FavoritesController extends GetxController {
       );
     }
   }
-
   Future<void> removeFavorite(String city) async {
     favorites.remove(city);
     await _storageService.saveFavorites(favorites);
@@ -53,11 +46,9 @@ class FavoritesController extends GetxController {
       duration: const Duration(seconds: 2),
     );
   }
-
   bool isFavorite(String city) {
     return favorites.contains(city);
   }
-
   Future<void> toggleFavorite(String city) async {
     if (isFavorite(city)) {
       await removeFavorite(city);

@@ -2,15 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wather_app/controllers/weather_controller.dart';
 import 'package:wather_app/views/weather_detail_view.dart';
-
 class SearchView extends StatelessWidget {
   const SearchView({super.key});
-
   @override
   Widget build(BuildContext context) {
     final TextEditingController searchController = TextEditingController();
     final WeatherController weatherController = Get.find();
-
     return Scaffold(
       backgroundColor: const Color(0xFF1C1B33),
       appBar: AppBar(
@@ -44,7 +41,6 @@ class SearchView extends StatelessWidget {
           padding: const EdgeInsets.all(20.0),
           child: Column(
             children: [
-              // Search Field
               Container(
                 decoration: BoxDecoration(
                   color: Colors.white.withOpacity(0.15),
@@ -85,10 +81,7 @@ class SearchView extends StatelessWidget {
                   },
                 ),
               ),
-
               const SizedBox(height: 20),
-
-              // Search Button
               Container(
                 width: double.infinity,
                 height: 56,
@@ -130,10 +123,7 @@ class SearchView extends StatelessWidget {
                   ),
                 ),
               ),
-
               const SizedBox(height: 16),
-
-              // Current Location Button
               Container(
                 width: double.infinity,
                 height: 56,
@@ -174,13 +164,9 @@ class SearchView extends StatelessWidget {
                   ),
                 ),
               ),
-
               const SizedBox(height: 30),
-
               Divider(color: Colors.white.withOpacity(0.2), thickness: 1),
-
               const SizedBox(height: 20),
-
               const Text(
                 'POPULAR CITIES',
                 style: TextStyle(
@@ -190,9 +176,7 @@ class SearchView extends StatelessWidget {
                   fontWeight: FontWeight.w600,
                 ),
               ),
-
               const SizedBox(height: 16),
-
               Expanded(
                 child: ListView(
                   children: [
@@ -223,7 +207,6 @@ class SearchView extends StatelessWidget {
       ),
     );
   }
-
   Widget _buildCityTile(
     String city,
     String country,
@@ -271,7 +254,6 @@ class SearchView extends StatelessWidget {
       ),
     );
   }
-
   void _searchCity(String city, WeatherController controller) {
     controller.fetchWeather(city).then((_) {
       if (controller.currentWeather.value != null) {
